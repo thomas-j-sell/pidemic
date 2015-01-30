@@ -1,0 +1,55 @@
+RED
+bangkok
+beijing
+ho chi min city
+hong kong
+jakarta
+manila
+osaka
+seoul
+shanghai
+sydney
+taipei
+toykyo
+
+YELLOW
+bogota
+buenos aires
+johannesburg
+khartoum
+kinshasa
+lagos
+lima
+los angeles
+mexico city
+miami
+santiago
+sao paulo
+
+BLUE
+atlanta
+chicago
+essen
+london
+madrid
+milan
+montreal
+new york
+paris
+san franscisco
+st. petersburg
+washington
+
+BLACK
+algiers
+baghdad
+cairo
+chennai
+delhi
+istanbul
+karachi
+kolkata
+moscow
+mumbai
+riyadh
+tehran
