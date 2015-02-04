@@ -1,55 +1,55 @@
 RED
-bangkok
-beijing
-ho chi min city
-hong kong
-jakarta
-manila
-osaka
-seoul
-shanghai
-sydney
-taipei
-toykyo
+BANGKOK
+BEIJING
+HO CHI MIN CITY
+HONG KONG
+JAKARTA
+MANILA
+OSAKA
+SEOUL
+SHANGHAI
+SYDNEY
+TAIPEI
+TOYKYO
 
 YELLOW
-bogota
-buenos aires
-johannesburg
-khartoum
-kinshasa
-lagos
-lima
-los angeles
-mexico city
-miami
-santiago
-sao paulo
+BOGOTA
+BUENOS AIRES
+JOHANNESBURG
+KHARTOUM
+KINSHASA
+LAGOS
+LIMA
+LOS ANGELES
+MEXICO CITY
+MIAMI
+SANTIAGO
+SAO PAULO
 
 BLUE
-atlanta
-chicago
-essen
-london
-madrid
-milan
-montreal
-new york
-paris
-san franscisco
-st. petersburg
-washington
+ATLANTA
+CHICAGO
+ESSEN
+LONDON
+MADRID
+MILAN
+MONTREAL
+NEW YORK
+PARIS
+SAN FRANSCISCO
+ST. PETERSBURG
+WASHINGTON
 
 BLACK
-algiers
-baghdad
-cairo
-chennai
-delhi
-istanbul
-karachi
-kolkata
-moscow
-mumbai
-riyadh
-tehran
+ALGIERS
+BAGHDAD
+CAIRO
+CHENNAI
+DELHI
+ISTANBUL
+KARACHI
+KOLKATA
+MOSCOW
+MUMBAI
+RIYADH
+TEHRAN

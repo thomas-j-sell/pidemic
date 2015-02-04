@@ -1,38 +1,86 @@
+import random
 
-def initDeck():
+class Deck:
 
-  lines = [line.strip() for line in open('../resources/cardlist.txt')]
+  def __init__(self):
+    self.deck = []
+    self.discard = []
 
-  lines.remove('RED')
-  lines.remove('YELLOW')
-  lines.remove('BLUE')
-  lines.remove('BLACK')
-  lines.remove('')
-  lines.remove('')
-  lines.remove('')
+    lines = [line.strip() for line in open('../resources/cardlist.txt')]
 
-  # red = lines[0:12]
-  # yellow = lines[12:24]
-  # blue = lines[24:36]
-  # black = lines[36:48]
-  # print red
-  # print yellow
-  # print blue
-  # print black
+    lines.remove('RED')
+    lines.remove('YELLOW')
+    lines.remove('BLUE')
+    lines.remove('BLACK')
+    lines.remove('')
+    lines.remove('')
+    lines.remove('')
 
-  decklist = []
+    for row in lines:
+      x = lines.index(row)
+      if x < 12:
+        self.deck.append([row,'RED'])
+      elif x >= 12 and x < 24:
+        self.deck.append([row,'YELLOW'])
+      elif x >= 24 and x < 36:
+        self.deck.append([row,'BLUE'])
+      elif x >= 36 and x < 48:
+        self.deck.append([row,'BLACK'])
 
-  for row in lines:
-    x = lines.index(row)
-    if x < 12:
-      decklist.append([row,'RED',0])
-    elif x > 12 and x < 24:
-      decklist.append([row,'YELLOW',0])
-    elif x > 24 and x < 36:
-      decklist.append([row,'BLUE',0])
-    elif x > 36 and x < 48:
-      decklist.append([row,'BLACK',0])
 
-  # for row in decklist:
-    # print row
-  return decklist
+  def __len__(self):
+    return len(self.deck)
+
+
+  # used just for testing
+  def _discardlen(self):
+    return len(self.discard)
+
+
+  def __getitem__(self, index):
+    return self.deck[index]
+
+
+  def shuffle(self):
+    shuffledDeck = _shuffle(self.deck)
+    
+    for row in shuffledDeck:
+      self.deck.append(row)
+
+
+  def draw(self):
+    card = self.deck.pop()
+    self.discard.append(card)
+    return card
+
+
+  def bottomDraw(self):
+    card = self.deck[0]
+    self.deck.remove(card)
+    self.discard.append(card)
+    return card
+
+
+  def epidemic(self):
+    epidemicCard = self.bottomDraw()
+    self.discard = _shuffle(self.discard)
+
+    for row in self.discard:
+      self.deck.append(row)
+
+    del self.discard[:]  
+
+    return epidemicCard
+
+
+def _shuffle(_list):
+  shuffledDeck = []
+  size = len(_list)
+
+  while size > 0:
+    i = random.randint(0,size-1)
+    shuffledDeck.append(_list[i])
+    _list.remove(_list[i])
+    size = len(_list)
+
+  return shuffledDeck
