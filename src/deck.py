@@ -1,3 +1,5 @@
+# Deck.py: Model of the infection deck
+
 import random
 
 class Deck:
