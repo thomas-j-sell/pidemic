@@ -1,4 +1,4 @@
-# Deck.py: Model of the infection deck
+# deck.py: Model of the infection deck
 
 import random
 
@@ -21,13 +21,13 @@ class Deck:
     for row in lines:
       x = lines.index(row)
       if x < 12:
-        self.deck.append([row,'RED'])
+        self.deck.append([row,'red'])
       elif x >= 12 and x < 24:
-        self.deck.append([row,'YELLOW'])
+        self.deck.append([row,'yellow'])
       elif x >= 24 and x < 36:
-        self.deck.append([row,'BLUE'])
+        self.deck.append([row,'blue'])
       elif x >= 36 and x < 48:
-        self.deck.append([row,'BLACK'])
+        self.deck.append([row,'black'])
 
 
   def __len__(self):
