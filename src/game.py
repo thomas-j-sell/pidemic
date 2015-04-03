@@ -16,7 +16,7 @@ deck = Deck()
 #     Navigate through cities with "place one cube" reminder text
 #     Last card should should have a continue button
 
-def newGame():
+def new_game():
   # reset variables (infection rate)
   # shuffle deck || create new deck
   # board set up, draw 3 and "place 3", draw 3 and "place 2", draw 3 and "place 1"
@@ -36,18 +36,16 @@ def newGame():
   print "Game: new game"
   return setup_cards
 
-
 # returns bottom card of infection deck
 def epidemic():
   global infection_rate
   infection_rate += 1
   print infection_rate
-  
+
   print "epidemic"
   card = deck.epidemic()
   print card
   return card
-
 
 # returns array of cards (cities to infect)
 def infect():
