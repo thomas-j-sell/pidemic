@@ -82,7 +82,10 @@ class Gui(object):
 
     def discard(self,*args):
         cards = game.discard_pile()
-        self.display_cards(cards,0,False)
+        if len(cards) > 0:
+          self.display_cards(cards,0,False)
+        else:
+          self.display_main_screen()
 
     def display_cards(self, cards, current_card, show_cube_text):
         print "displaying card number %d" % current_card
