@@ -41,6 +41,11 @@ class Gui(object):
     def create_card_title(self, title):
         text = self.canvas.create_text(width/2,50,text=title,font=("Monospace",50))
         self.create_text_background(text)
+
+    def create_continue_button(self):
+        id = self.canvas.create_text(375,290,text='continue',font=("Monospace",50))
+        self.create_text_background(id)
+        self.canvas.tag_bind(id, "<Button-1>", self.display_main_screen)
         
     def toggle_fullscreen(self, event=None):
         self.state = not self.state  # Just toggling the boolean
@@ -55,7 +60,7 @@ class Gui(object):
     def new_game(self, *args):
         cards = game.new_game()
         self.clear_canvas()
-        self.display_cards(cards,0)
+        self.display_cards(cards,0,True)
         # navigate through cards
 
     def epidemic(self, *args):
@@ -66,40 +71,70 @@ class Gui(object):
         self.clear_canvas()
 
         self.canvas.create_rectangle(0,0,width,height,fill=color)
-        self.canvas.create_rectangle(100,130,380,190,fill="White")
-        id = self.canvas.create_text(width/2,height/2,text=city,font=("Monospace",50))
+        self.create_card_title(city)
+        id = self.canvas.create_text(width/2,height/2,text="Place 3 cubes",font=("Monospace",50))
+        self.create_text_background(id)
+        self.create_continue_button()
 
-    def display_cards(self, cards, current_card):
-        print "displaying card number %d", current_card
-        card = cards[current_card]
-        city = card[0]
-        color = card[1]
+    def infection(self,*args):
+        cards = game.infect()
+        self.display_cards(cards,0,True)
+
+    def discard(self,*args):
+        cards = game.discard_pile()
+        self.display_cards(cards,0,False)
+
+    def display_cards(self, cards, current_card, show_cube_text):
+        print "displaying card number %d" % current_card
+        if len(cards) > 0:
+            card = cards[current_card]
+            city = card[0]
+            color = card[1]
 
         self.clear_canvas()
         self.canvas.create_rectangle(0,0,width,height,fill=color)
         self.create_card_title(city)
 
-        if current_card <= 2:
-            id = self.canvas.create_text(width/2,height/2,text="Place 3 cubes",font=("Monospace",50))
-            self.create_text_background(id)
-        elif current_card <= 5:
-            id = self.canvas.create_text(width/2,height/2,text="Place 2 cubes",font=("Monospace",50))
-            self.create_text_background(id)
-        elif current_card <= 8:
-            id = self.canvas.create_text(width/2,height/2,text="Place 1 cube",font=("Monospace",50))
-            self.create_text_background(id)
+        if show_cube_text:
+            # len(cards) == 9 is the initiaL setup, len(cards) <= 4 is an infection event
+            if current_card <= 2 and len(cards) == 9:
+                id = self.canvas.create_text(width/2,height/2,text="Place 3 cubes",font=("Monospace",50))
+                self.create_text_background(id)
+            elif current_card <= 5 and len(cards) == 9:
+                id = self.canvas.create_text(width/2,height/2,text="Place 2 cubes",font=("Monospace",50))
+                self.create_text_background(id)
+            elif current_card <= 8 or len(cards) <= 4:
+                id = self.canvas.create_text(width/2,height/2,text="Place 1 cube",font=("Monospace",50))
+                self.create_text_background(id)
 
         if current_card < len(cards) - 1:
             id = self.canvas.create_text(420,290,text='next',font=("Monospace",50))
             self.create_text_background(id)
-            self.canvas.tag_bind(id, "<Button-1>", lambda x: self.display_cards(cards,current_card+1))
+            self.canvas.tag_bind(id, "<Button-1>", lambda x: self.display_cards(cards,current_card+1,show_cube_text))
         else:
-            print "done"
+            self.create_continue_button()
 
         if current_card > 0:
             id = self.canvas.create_text(60,290,text='prev',font=("Monospace",50))
             self.create_text_background(id)
-            self.canvas.tag_bind(id, "<Button-1>", lambda x: self.display_cards(cards,current_card-1))
+            self.canvas.tag_bind(id, "<Button-1>", lambda x: self.display_cards(cards,current_card-1,show_cube_text))
+
+    def display_main_screen(self, *args):
+        self.clear_canvas()
+        self.canvas.create_rectangle(0,0,width,height,fill='white')
+
+        id = self.canvas.create_text(width/2,50,text="Discard",font=("Monospace",50))
+        self.create_text_background(id)
+        self.canvas.tag_bind(id, "<Button-1>", self.discard)
+
+        id = self.canvas.create_text(width/2,height/2,text="infection",font=("Monospace",50))
+        self.create_text_background(id)
+        self.canvas.tag_bind(id, "<Button-1>", self.infection)
+
+        id = self.canvas.create_text(width/2,270,text="epidemic",font=("Monospace",50))
+        self.create_text_background(id)
+        self.canvas.tag_bind(id, "<Button-1>", self.epidemic)
+        
 
 
 

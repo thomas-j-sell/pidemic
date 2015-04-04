@@ -42,6 +42,8 @@ class Deck:
   def __getitem__(self, index):
     return self.deck[index]
 
+  def get_discard(self):
+    return self.discard
 
   def shuffle(self):
     shuffledDeck = _shuffle(self.deck)
