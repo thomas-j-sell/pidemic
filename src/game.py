@@ -5,6 +5,20 @@ from deck import Deck
 epidemic_rate = 0;
 deck = Deck()
 
+
+def infection_rate():
+  global epidemic_rate
+
+  if epidemic_rate < 3:
+    infection_rate = 2
+  elif epidemic_rate < 5:
+    infection_rate = 3
+  else:
+    infection_rate = 4
+
+  return infection_rate
+
+
 def new_game():
   global epidemic_rate
   epidemic_rate = 0
@@ -17,6 +31,7 @@ def new_game():
 
   return setup_cards
 
+
 # returns bottom card of infection deck
 def epidemic():
   global epidemic_rate
@@ -25,24 +40,31 @@ def epidemic():
 
   return card
 
+
 # returns array of infection cards
 def infect():
-  global epidemic_rate
 
-  if epidemic_rate < 3:
-    infection_rate = 2
-  elif epidemic_rate < 5:
-    infection_rate = 3
-  else:
-    infection_rate = 4
-
+  rate = infection_rate()
   infection_cards = []
 
-  for i in range(infection_rate):
+  for i in range(rate):
     infection_cards.append(deck.draw())
 
   return infection_cards
 
+
 # returns the discard pile
 def discard_pile():
   return deck.get_discard()
+
+
+# returns the top [number] cards without discarding them
+def peek(number):
+  return deck.peek(number)
+
+def troubleshoot():
+  rate = infection_rate()
+  return peek(rate)
+
+
+

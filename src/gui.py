@@ -92,8 +92,13 @@ class Gui(object):
       self.display_main_screen()
 
 
+  def troubleshoot(self,*args):
+    cards = game.troubleshoot()
+    self.display_cards(cards,0,False)
+
+
   def display_cards(self, cards, current_card, show_cube_text):
-    print "displaying card number %d" % current_card
+    # print "displaying card number %d" % current_card
     if len(cards) > 0:
       card = cards[current_card]
       city = card[0]
@@ -143,9 +148,13 @@ class Gui(object):
     self.clear_canvas()
     self.create_main_background()
 
-    id = self.canvas.create_text(50,30,text="End",font=("Monospace",50))
+    id = self.canvas.create_text(40,20,text="End",font=("Monospace",30))
     self.create_text_background(id)
     self.canvas.tag_bind(id,"<Button-1>", self.display_start_screen)
+
+    id = self.canvas.create_text(430,20,text="Event",font=("Monospace",30))
+    self.create_text_background(id)
+    self.canvas.tag_bind(id,"<Button-1>", self.display_event_screen)
 
     id = self.canvas.create_text(width/2,50,text="Discard",font=("Monospace",50))
     self.create_text_background(id)
@@ -155,9 +164,37 @@ class Gui(object):
     self.create_text_background(id)
     self.canvas.tag_bind(id, "<Button-1>", self.infection)
 
+    # rate = game.infection_rate()
+    # id = self.canvas.create_text(450,height/2,text=rate,font=("Monospace",50))
+    # self.create_text_background(id)
+
     id = self.canvas.create_text(width/2,270,text="Epidemic",font=("Monospace",50))
     self.create_text_background(id)
     self.canvas.tag_bind(id, "<Button-1>", self.epidemic)
+
+
+  def display_event_screen(self,*args):
+    self.create_main_background()
+
+    id = self.canvas.create_text(40,20,text="Back",font=("Monospace",30))
+    self.create_text_background(id)
+    self.canvas.tag_bind(id,"<Button-1>", self.display_main_screen)
+
+    id = self.canvas.create_text(width/2,70,text="Troubleshooter (character)",font=("Monospace",30))
+    self.create_text_background(id)
+    self.canvas.tag_bind(id, "<Button-1>", self.troubleshoot)
+
+    id = self.canvas.create_text(width/2,120,text="Forecast (event)",font=("Monospace",30))
+    self.create_text_background(id)
+    # self.canvas.tag_bind(id, "<Button-1>", sys.exit)
+
+    id = self.canvas.create_text(width/2,170,text="Resilient Population (event)",font=("Monospace",30))
+    self.create_text_background(id)
+    # self.canvas.tag_bind(id, "<Button-1>", sys.exit)
+
+    id = self.canvas.create_text(width/2,220,text="Commercial Travel Ban (event)",font=("Monospace",30))
+    self.create_text_background(id)
+    # self.canvas.tag_bind(id, "<Button-1>", sys.exit)
 
 
 if __name__ == '__main__':

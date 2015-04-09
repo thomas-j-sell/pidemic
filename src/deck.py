@@ -67,6 +67,16 @@ class Deck:
     return card
 
 
+  def peek(self, number):
+    index = len(self.deck) - 1
+    cards = []
+
+    for x in range(number):
+      cards.append(self.deck[index-x])
+
+    return cards
+
+
   def epidemic(self):
     epidemicCard = self.bottomDraw()
     self.discard = _shuffle(self.discard)

@@ -64,6 +64,26 @@ class deckTest(unittest.TestCase):
     self.assertEqual(testDeck._discardlen(), 3, 'discard pile incorrect size')
 
 
+  def test_peek(self):
+    testDeck = Deck()
+
+    cards = testDeck.peek(1)
+    self.assertEqual(cards[0], ['TEHRAN', 'black'], 'did not draw top card')
+    self.assertEqual(testDeck._discardlen(), 0, 'discard pile incorrect size')
+
+    cards = testDeck.peek(2)
+    self.assertEqual(cards[0], ['TEHRAN', 'black'], 'did not draw top card')
+    self.assertEqual(cards[1], ['RIYADH', 'black'], 'did not draw top card')
+    self.assertEqual(testDeck._discardlen(), 0, 'discard pile incorrect size')
+
+    cards = testDeck.peek(4)
+    self.assertEqual(cards[0], ['TEHRAN', 'black'], 'did not draw top card')
+    self.assertEqual(cards[1], ['RIYADH', 'black'], 'did not draw top card')
+    self.assertEqual(cards[2], ['MUMBAI', 'black'], 'did not draw top card')
+    self.assertEqual(cards[3], ['MOSCOW', 'black'], 'did not draw top card')
+    self.assertEqual(testDeck._discardlen(), 0, 'discard pile incorrect size')
+
+
   def test_epidemic(self):
     testDeck = Deck()
 
