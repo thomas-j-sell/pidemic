@@ -62,9 +62,13 @@ def discard_pile():
 def peek(number):
   return deck.peek(number)
 
+
 def troubleshoot():
-  rate = infection_rate()
-  return peek(rate)
+  return peek(infection_rate())
 
 
+def forecast_pop():
+  return deck.forecast_pop()
 
+def forecast_append(cards):
+  deck.forecast_append(cards)

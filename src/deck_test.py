@@ -84,6 +84,42 @@ class deckTest(unittest.TestCase):
     self.assertEqual(testDeck._discardlen(), 0, 'discard pile incorrect size')
 
 
+  def test_forecast(self):
+    testDeck = Deck()
+
+    cards = testDeck.forecast_pop()
+    self.assertEqual(len(testDeck), 42, 'incorrect deck size')
+    self.assertEqual(cards[0], ['TEHRAN', 'black'], 'did not draw top card')
+    self.assertEqual(cards[1], ['RIYADH', 'black'], 'did not draw top card')
+    self.assertEqual(cards[2], ['MUMBAI', 'black'], 'did not draw top card')
+    self.assertEqual(cards[3], ['MOSCOW', 'black'], 'did not draw top card')
+    self.assertEqual(cards[4], ['KOLKATA', 'black'], 'did not draw top card')
+    self.assertEqual(cards[5], ['KARACHI', 'black'], 'did not draw top card')
+
+    cards.reverse()
+    self.assertEqual(cards[5], ['TEHRAN', 'black'], 'did not draw top card')
+    self.assertEqual(cards[4], ['RIYADH', 'black'], 'did not draw top card')
+    self.assertEqual(cards[3], ['MUMBAI', 'black'], 'did not draw top card')
+    self.assertEqual(cards[2], ['MOSCOW', 'black'], 'did not draw top card')
+    self.assertEqual(cards[1], ['KOLKATA', 'black'], 'did not draw top card')
+    self.assertEqual(cards[0], ['KARACHI', 'black'], 'did not draw top card')
+
+    self.assertEqual(len(testDeck), 42, 'incorrect deck size')
+    testDeck.forecast_append(cards)
+    self.assertEqual(len(testDeck), 48, 'incorrect deck size')
+
+    cards = []
+    for x in range(6):
+      cards.append(testDeck.draw())
+
+    self.assertEqual(cards[5], ['TEHRAN', 'black'], 'did not draw top card')
+    self.assertEqual(cards[4], ['RIYADH', 'black'], 'did not draw top card')
+    self.assertEqual(cards[3], ['MUMBAI', 'black'], 'did not draw top card')
+    self.assertEqual(cards[2], ['MOSCOW', 'black'], 'did not draw top card')
+    self.assertEqual(cards[1], ['KOLKATA', 'black'], 'did not draw top card')
+    self.assertEqual(cards[0], ['KARACHI', 'black'], 'did not draw top card')
+
+
   def test_epidemic(self):
     testDeck = Deck()
 

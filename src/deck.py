@@ -77,6 +77,21 @@ class Deck:
     return cards
 
 
+  def forecast_pop(self):
+    cards = []
+
+    for x in range(6):
+      cards.append(self.deck.pop())
+
+    return cards
+
+
+  def forecast_append(self, cards):
+    cards.reverse()
+    for card in cards:
+      self.deck.append(card)
+
+
   def epidemic(self):
     epidemicCard = self.bottomDraw()
     self.discard = _shuffle(self.discard)
