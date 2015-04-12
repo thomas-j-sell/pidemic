@@ -92,6 +92,10 @@ class Deck:
       self.deck.append(card)
 
 
+  def remove_card(self, card):
+    self.discard.remove(card)
+
+
   def epidemic(self):
     epidemicCard = self.bottomDraw()
     self.discard = _shuffle(self.discard)

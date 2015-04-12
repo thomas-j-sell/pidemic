@@ -120,26 +120,36 @@ class deckTest(unittest.TestCase):
     self.assertEqual(cards[0], ['KARACHI', 'black'], 'did not draw top card')
 
 
+  def test_remove_card(self):
+    testDeck = Deck()
+
+    card = testDeck.draw()
+    self.assertEqual(card, ['TEHRAN', 'black'], 'did not draw top card')
+    self.assertEqual(testDeck._discardlen(), 1, 'discard pile incorrect size')
+
+    testDeck.remove_card(card)
+    self.assertEqual(testDeck._discardlen(), 0, 'discard pile incorrect size')
+
   def test_epidemic(self):
     testDeck = Deck()
 
     card = testDeck.draw()
     self.assertEqual(card, ['TEHRAN', 'black'], 'did not draw top card')
     self.assertEqual(testDeck._discardlen(), 1, 'discard pile incorrect size')
-    self.assertEqual(len(testDeck), 47, 'discard pile incorrect size')
+    self.assertEqual(len(testDeck), 47, 'deck incorrect size')
     card = testDeck.draw()
     self.assertEqual(card, ['RIYADH', 'black'], 'did not draw top card')
     self.assertEqual(testDeck._discardlen(), 2, 'discard pile incorrect size')
-    self.assertEqual(len(testDeck), 46, 'discard pile incorrect size')
+    self.assertEqual(len(testDeck), 46, 'deck incorrect size')
     card = testDeck.draw()
     self.assertEqual(card, ['MUMBAI', 'black'], 'did not draw top card')
     self.assertEqual(testDeck._discardlen(), 3, 'discard pile incorrect size')
-    self.assertEqual(len(testDeck), 45, 'discard pile incorrect size')
+    self.assertEqual(len(testDeck), 45, 'deck incorrect size')
 
     card = testDeck.epidemic()
     self.assertEqual(card, ['BANGKOK', 'red'], 'bottom draw returned incorrect card')
     self.assertEqual(testDeck._discardlen(), 0, 'discard pile incorrect size')
-    self.assertEqual(len(testDeck), 48, 'discard pile incorrect size')
+    self.assertEqual(len(testDeck), 48, 'deck incorrect size')
 
 
 if __name__ == '__main__':

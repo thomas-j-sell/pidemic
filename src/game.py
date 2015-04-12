@@ -4,19 +4,28 @@ from deck import Deck
 
 epidemic_rate = 0;
 deck = Deck()
+travel_ban = False
 
 
 def infection_rate():
   global epidemic_rate
 
-  if epidemic_rate < 3:
-    infection_rate = 2
-  elif epidemic_rate < 5:
-    infection_rate = 3
+  if travel_ban:
+    infection_rate = 1
   else:
-    infection_rate = 4
+    if epidemic_rate < 3:
+      infection_rate = 2
+    elif epidemic_rate < 5:
+      infection_rate = 3
+    else:
+      infection_rate = 4
 
   return infection_rate
+
+
+def toggle_travel_ban():
+  global travel_ban
+  travel_ban = False if travel_ban else True
 
 
 def new_game():
@@ -70,5 +79,10 @@ def troubleshoot():
 def forecast_pop():
   return deck.forecast_pop()
 
+
 def forecast_append(cards):
   deck.forecast_append(cards)
+
+
+def remove_card(card):
+  deck.remove_card(card)

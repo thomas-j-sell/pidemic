@@ -62,14 +62,13 @@ class Gui(object):
   def new_game(self, *args):
     cards = game.new_game()
     self.clear_canvas()
-    self.display_cards(cards,0,True)
+    self.display_cards(cards,0,True,False)
 
 
   def epidemic(self, *args):
     card = game.epidemic()
     city = card[0]
     color = card[1]
-    print "card: %s, color: %s" % (city, color)
     self.clear_canvas()
 
     self.canvas.create_rectangle(0,0,width,height,fill=color)
@@ -81,24 +80,23 @@ class Gui(object):
 
   def infection(self,*args):
     cards = game.infect()
-    self.display_cards(cards,0,True)
+    self.display_cards(cards,0,True,False)
 
 
-  def discard(self,*args):
+  def show_discard_pile(self,*args):
     cards = game.discard_pile()
     if len(cards) > 0:
-      self.display_cards(cards,0,False)
+      self.display_cards(cards,0,False,False)
     else:
       self.display_main_screen()
 
 
   def troubleshoot(self,*args):
     cards = game.troubleshoot()
-    self.display_cards(cards,0,False)
+    self.display_cards(cards,0,False,False)
 
 
-  def display_cards(self, cards, current_card, show_cube_text):
-    # print "displaying card number %d" % current_card
+  def display_cards(self, cards, current_card, show_cube_text,show_removal_button):
     if len(cards) > 0:
       card = cards[current_card]
       city = card[0]
@@ -119,18 +117,22 @@ class Gui(object):
       elif current_card <= 8 or len(cards) <= 4:
         id = self.canvas.create_text(width/2,height/2,text="Place 1 cube",font=("Monospace",50))
         self.create_text_background(id,"White")
+    elif show_removal_button:
+      id = self.canvas.create_text(width/2,height/2,text="Remove",font=("Monospace",50))
+      self.create_text_background(id,"White")
+      self.canvas.tag_bind(id, "<Button-1>", lambda x: self.remove_card(card))
 
     if current_card < len(cards) - 1:
       id = self.canvas.create_text(420,290,text='Next',font=("Monospace",50))
       self.create_text_background(id,"White")
-      self.canvas.tag_bind(id, "<Button-1>", lambda x: self.display_cards(cards,current_card+1,show_cube_text))
+      self.canvas.tag_bind(id, "<Button-1>", lambda x: self.display_cards(cards,current_card+1,show_cube_text,show_removal_button))
     else:
       self.create_continue_button()
 
     if current_card > 0:
       id = self.canvas.create_text(60,290,text='Prev',font=("Monospace",50))
       self.create_text_background(id,"White")
-      self.canvas.tag_bind(id, "<Button-1>", lambda x: self.display_cards(cards,current_card-1,show_cube_text))
+      self.canvas.tag_bind(id, "<Button-1>", lambda x: self.display_cards(cards,current_card-1,show_cube_text,show_removal_button))
 
 
   def display_start_screen(self,*args):
@@ -158,15 +160,15 @@ class Gui(object):
 
     id = self.canvas.create_text(width/2,50,text="Discard",font=("Monospace",50))
     self.create_text_background(id,"White")
-    self.canvas.tag_bind(id, "<Button-1>", self.discard)
+    self.canvas.tag_bind(id, "<Button-1>", self.show_discard_pile)
 
     id = self.canvas.create_text(width/2,height/2,text="Infect",font=("Monospace",50))
     self.create_text_background(id,"White")
     self.canvas.tag_bind(id, "<Button-1>", self.infection)
 
-    # rate = game.infection_rate()
-    # id = self.canvas.create_text(450,height/2,text=rate,font=("Monospace",50))
-    # self.create_text_background(id,"White")
+    rate = game.infection_rate()
+    id = self.canvas.create_text(450,height/2,text=rate,font=("Monospace",50))
+    self.create_text_background(id,"White")
 
     id = self.canvas.create_text(width/2,270,text="Epidemic",font=("Monospace",50))
     self.create_text_background(id,"White")
@@ -191,11 +193,29 @@ class Gui(object):
 
     id = self.canvas.create_text(width/2,170,text="Resilient Population (event)",font=("Monospace",30))
     self.create_text_background(id,"White")
-    # self.canvas.tag_bind(id, "<Button-1>", sys.exit)
+    self.canvas.tag_bind(id, "<Button-1>", self.resilient_population)
 
     id = self.canvas.create_text(width/2,220,text="Commercial Travel Ban (event)",font=("Monospace",30))
     self.create_text_background(id,"White")
-    # self.canvas.tag_bind(id, "<Button-1>", sys.exit)
+    self.canvas.tag_bind(id, "<Button-1>", self.toggle_travel_ban)
+
+
+  def toggle_travel_ban(self,*args):
+    game.toggle_travel_ban()
+    self.display_main_screen()
+
+
+  def resilient_population(self,*arbs):
+    cards = game.discard_pile()
+    if len(cards) > 0:
+      self.display_cards(cards,0,False,True)
+    else:
+      self.display_main_screen()
+
+
+  def remove_card(self,card):
+    game.remove_card(card)
+    self.display_main_screen()
 
 
   def display_forecast(self,cards,position):
