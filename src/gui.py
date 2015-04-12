@@ -257,32 +257,16 @@ class Gui(object):
 
 
   def forecast_rearrange(self,cards,placement_card,position):
-    # put card in desired position
     place_index = position - 1
-    print""
-    print "cards: %s" % cards
-    print "placement card: %s" % placement_card
-    print""
 
     new_cards = cards[0:place_index]
-    print "new_cards slice: %s" % new_cards
     new_cards.append(placement_card)
-    print "new_cards placement_card: %s" % new_cards
-    print""
     for card in new_cards:
       cards.remove(card)
-      print "removed %s" % card
 
-    print "cards post removal: %s" % cards
-
-    print""
     for card in cards:
-      print "adding %s" % card
       new_cards.append(card)
-      # cards.remove(card)
     
-    print""
-    print "new_cards final: %s" % new_cards
     self.display_forecast(new_cards, position+1)
 
 
