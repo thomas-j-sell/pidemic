@@ -13,7 +13,7 @@ class Gui(object):
     self.tk.title("Pidemic")
     if platform.system() == 'Linux':
       self.canvas = Canvas(self.tk, width=width,height=height, cursor="none")
-      toggle_fullscreen()
+      self.tk.attributes("-fullscreen", True)
     else:
       self.canvas = Canvas(self.tk, width=width,height=height)
     self.canvas.pack()
