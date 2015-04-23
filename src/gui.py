@@ -1,5 +1,6 @@
 from Tkinter import *
 import sys
+import platform
 import game
 
 width = 480
@@ -10,7 +11,10 @@ class Gui(object):
   def __init__(self):
     self.tk = Tk()
     self.tk.title("Pidemic")
-    self.canvas = Canvas(self.tk, width=width,height=height)
+    if platform.system() == 'Linux':
+      self.canvas = Canvas(self.tk, width=width,height=height, cursor="none")
+    else:
+      self.canvas = Canvas(self.tk, width=width,height=height)
     self.canvas.pack()
     self.state = False
     self.tk.bind("<Escape>", self.toggle_fullscreen)
