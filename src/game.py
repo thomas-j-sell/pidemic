@@ -40,9 +40,10 @@ def toggle_travel_ban():
 
 def new_game():
   global num_epidemics
+  global deck
   num_epidemics = 0
-  # deck = Deck()
-  deck.shuffle_discard_onto_deck() # returns discard pile to deck
+  deck = Deck()
+  # deck.shuffle_discard_onto_deck() # returns discard pile to deck
   deck.shuffle()
 
   setup_cards = []
