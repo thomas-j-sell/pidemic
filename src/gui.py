@@ -5,6 +5,7 @@ import game
 
 width = 480
 height = 320
+is_epidemic = False
 
 class Gui(object):
 
@@ -70,8 +71,9 @@ class Gui(object):
     self.display_cards(cards,0,True,False)
 
 
-  def epidemic(self, *args):
-    card = game.epidemic()
+  def epidemic_draw(self, *args):
+    global is_epidemic
+    card = game.epidemic_draw()
     city = card[0]
     color = card[1]
     self.clear_canvas()
@@ -80,7 +82,18 @@ class Gui(object):
     self.create_card_title(city)
     id = self.canvas.create_text(width/2,height/2,text="Place 3 cubes",font=("Monospace",50))
     self.create_text_background(id,"White")
-    self.create_continue_button()
+
+    id = self.canvas.create_text(375,290,text='Continue',font=("Monospace",50))
+    self.create_text_background(id,"White")
+    is_epidemic = True
+    self.canvas.tag_bind(id, "<Button-1>", self.display_main_screen)
+
+
+  def epidemic_shuffle(self, *args):
+    global is_epidemic
+    game.epidemic_shuffle()
+    is_epidemic = False
+    self.display_main_screen()
 
 
   def infection(self,*args):
@@ -101,7 +114,7 @@ class Gui(object):
     self.display_cards(cards,0,False,False)
 
 
-  def display_cards(self, cards, current_card, show_cube_text,show_removal_button):
+  def display_cards(self, cards, current_card, show_cube_text, show_removal_button):
     if len(cards) > 0:
       card = cards[current_card]
       city = card[0]
@@ -140,7 +153,7 @@ class Gui(object):
       self.canvas.tag_bind(id, "<Button-1>", lambda x: self.display_cards(cards,current_card-1,show_cube_text,show_removal_button))
 
 
-  def display_start_screen(self,*args):
+  def display_start_screen(self, *args):
     self.create_main_background()
     id = self.canvas.create_text(width/2,height/4,text="New Game",font=("Monospace",60))
     self.create_text_background(id,"White")
@@ -152,6 +165,7 @@ class Gui(object):
 
 
   def display_main_screen(self, *args):
+    global is_epidemic
     self.clear_canvas()
     self.create_main_background()
 
@@ -168,16 +182,33 @@ class Gui(object):
     self.canvas.tag_bind(id, "<Button-1>", self.show_discard_pile)
 
     id = self.canvas.create_text(width/2,height/2,text="Infect",font=("Monospace",50))
-    self.create_text_background(id,"White")
-    self.canvas.tag_bind(id, "<Button-1>", self.infection)
+    if is_epidemic:
+      self.create_text_background(id,"Grey")
+    else:
+      self.create_text_background(id,"White")
+      self.canvas.tag_bind(id, "<Button-1>", self.infection)
 
     rate = game.infection_rate()
-    id = self.canvas.create_text(450,height/2,text=rate,font=("Monospace",50))
+    will_change = game.infection_rate_will_change()
+    if will_change:
+      id = self.canvas.create_text(450,height/2,text="%d+" % rate,font=("Monospace",50))
+    else:
+      id = self.canvas.create_text(450,height/2,text=rate,font=("Monospace",50))
     self.create_text_background(id,"White")
 
-    id = self.canvas.create_text(width/2,270,text="Epidemic",font=("Monospace",50))
-    self.create_text_background(id,"White")
-    self.canvas.tag_bind(id, "<Button-1>", self.epidemic)
+    id = self.canvas.create_text(width/4,260,text="Epidemic\nDraw",font=("Monospace",50))
+    if is_epidemic:
+      self.create_text_background(id,"Grey")
+    else:
+      self.create_text_background(id,"White")
+      self.canvas.tag_bind(id, "<Button-1>", self.epidemic_draw)
+
+    id = self.canvas.create_text(width/4*3,260,text="Epidemic\nShuffle",font=("Monospace",50))
+    if is_epidemic:
+      self.create_text_background(id,"White")
+      self.canvas.tag_bind(id, "<Button-1>", self.epidemic_shuffle)
+    else:
+      self.create_text_background(id,"Grey")
 
 
   def display_event_screen(self,*args):
@@ -205,7 +236,7 @@ class Gui(object):
     self.canvas.tag_bind(id, "<Button-1>", self.toggle_travel_ban)
 
 
-  def toggle_travel_ban(self,*args):
+  def toggle_travel_ban(self, *args):
     game.toggle_travel_ban()
     self.display_main_screen()
 

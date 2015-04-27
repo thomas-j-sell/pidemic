@@ -2,25 +2,35 @@
 
 from deck import Deck
 
-epidemic_rate = 0;
+num_epidemics = 0
 deck = Deck()
 travel_ban = False
 
 
 def infection_rate():
-  global epidemic_rate
+  global num_epidemics
 
   if travel_ban:
     infection_rate = 1
   else:
-    if epidemic_rate < 3:
+    if num_epidemics < 3:
       infection_rate = 2
-    elif epidemic_rate < 5:
+    elif num_epidemics < 5:
       infection_rate = 3
     else:
       infection_rate = 4
 
   return infection_rate
+
+
+def infection_rate_will_change():
+  global num_epidemics
+  will_change = False
+
+  if num_epidemics == 2 or num_epidemics == 4:
+    will_change = True
+
+  return will_change
 
 
 def toggle_travel_ban():
@@ -29,9 +39,10 @@ def toggle_travel_ban():
 
 
 def new_game():
-  global epidemic_rate
-  epidemic_rate = 0
-  deck.epidemic() # returns discard pile to deck 
+  global num_epidemics
+  num_epidemics = 0
+  # deck = Deck()
+  deck.shuffle_discard_onto_deck() # returns discard pile to deck
   deck.shuffle()
 
   setup_cards = []
@@ -42,12 +53,16 @@ def new_game():
 
 
 # returns bottom card of infection deck
-def epidemic():
-  global epidemic_rate
-  epidemic_rate += 1
-  card = deck.epidemic()
+def epidemic_draw():
+  global num_epidemics
+  num_epidemics += 1
+  card = deck.bottom_draw()
 
   return card
+
+
+def epidemic_shuffle():
+  deck.shuffle_discard_onto_deck()
 
 
 # returns array of infection cards

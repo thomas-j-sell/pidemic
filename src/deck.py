@@ -60,7 +60,7 @@ class Deck:
     return card
 
 
-  def bottomDraw(self):
+  def bottom_draw(self):
     card = self.deck[0]
     self.deck.remove(card)
     self.discard.append(card)
@@ -96,8 +96,8 @@ class Deck:
     self.discard.remove(card)
 
 
-  def epidemic(self):
-    epidemicCard = self.bottomDraw()
+  def shuffle_discard_onto_deck(self):
+    # epidemicCard = self.bottomDraw()
     self.discard = _shuffle(self.discard)
 
     for row in self.discard:
@@ -105,7 +105,7 @@ class Deck:
 
     del self.discard[:]  
 
-    return epidemicCard
+    # return epidemicCard
 
 
 def _shuffle(_list):
