@@ -1,15 +1,19 @@
-# deck.py: Model of the infection deck
+# deck.py: supplies a model of the infection deck from board game Pandemic
+# for information about the rules of Pandemic and the mechanics of the infection deck
+#  consult the game's rulebook.
 
 import random
 
 class Deck:
 
+  # initializes the deck from a file containing a list of cards
   def __init__(self):
     self.deck = []
     self.discard = []
 
     lines = [line.strip() for line in open('../resources/cardlist.txt')]
 
+    # remove parts of the file that aren't card names
     lines.remove('RED')
     lines.remove('YELLOW')
     lines.remove('BLUE')
@@ -18,6 +22,7 @@ class Deck:
     lines.remove('')
     lines.remove('')
 
+    # each city is assigned a corresponding color
     for row in lines:
       x = lines.index(row)
       if x < 12:
@@ -35,7 +40,7 @@ class Deck:
 
 
   # used just for testing
-  def _discardlen(self):
+  def _discard_len(self):
     return len(self.discard)
 
 
@@ -48,10 +53,7 @@ class Deck:
 
 
   def shuffle(self):
-    shuffledDeck = _shuffle(self.deck)
-    
-    for card in shuffledDeck:
-      self.deck.append(card)
+    random.shuffle(self.deck)
 
 
   def draw(self):
@@ -67,6 +69,7 @@ class Deck:
     return card
 
 
+  # reveals the top x cards without altering their order
   def peek(self, number):
     index = len(self.deck) - 1
     cards = []
@@ -77,6 +80,8 @@ class Deck:
     return cards
 
 
+  # removes top 6 cards so they can be rearranged
+  # should always be used with forecast_pop
   def forecast_pop(self):
     cards = []
 
@@ -86,6 +91,8 @@ class Deck:
     return cards
 
 
+  # returns cards back onto the deck
+  # should always be used with forecast_pop
   def forecast_append(self, cards):
     cards.reverse()
     for card in cards:
@@ -97,25 +104,10 @@ class Deck:
 
 
   def shuffle_discard_onto_deck(self):
-    # epidemicCard = self.bottomDraw()
-    self.discard = _shuffle(self.discard)
+    random.shuffle(self.discard)
 
     for row in self.discard:
       self.deck.append(row)
 
     del self.discard[:]  
 
-    # return epidemicCard
-
-
-def _shuffle(_list):
-  shuffledDeck = []
-  size = len(_list)
-
-  while size > 0:
-    i = random.randint(0,size-1)
-    shuffledDeck.append(_list[i])
-    _list.remove(_list[i])
-    size = len(_list)
-
-  return shuffledDeck
