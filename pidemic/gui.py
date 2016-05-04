@@ -322,7 +322,7 @@ class Gui(object):
 
     for card in cards:
       new_cards.append(card)
-    
+
     self.display_forecast(new_cards, position+1)
 
 
@@ -330,6 +330,4 @@ class Gui(object):
     game.forecast_append(cards)
     self.display_main_screen()
 
-if __name__ == '__main__':
-  w = Gui()
-  w.tk.mainloop()
+
