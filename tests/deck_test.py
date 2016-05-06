@@ -1,8 +1,10 @@
-import unittest
-from deck import Deck
+import context
+from pidemic.deck import Deck
 
-class deckTest(unittest.TestCase):
-  
+import unittest
+
+class DeckTest(unittest.TestCase):
+
   def test_init(self):
     testDeck = Deck()
     self.assertNotEqual(testDeck, None, "deck wasn't initialized")
@@ -155,4 +157,4 @@ class deckTest(unittest.TestCase):
 
 if __name__ == '__main__':
   unittest.main()
-  
+

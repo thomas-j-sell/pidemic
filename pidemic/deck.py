@@ -11,7 +11,7 @@ class Deck:
     self.deck = []
     self.discard = []
 
-    lines = [line.strip() for line in open('../resources/cardlist.txt')]
+    lines = [line.strip() for line in open('resources/cardlist.txt')]
 
     # remove parts of the file that aren't card names
     lines.remove('RED')
